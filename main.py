@@ -6,6 +6,7 @@ from join import *
 from main_window import *
 import sys
 from anketa import *
+import pkg_resources.py2_warn
 
 
 class Join(QtWidgets.QMainWindow):
