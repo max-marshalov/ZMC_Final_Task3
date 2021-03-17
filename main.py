@@ -5,8 +5,7 @@ import sqlite3
 from join import *
 from main_window import *
 import sys
-from docxtpl import DocxTemplate
-import pkg_resources.py2_warn
+from anketa import *
 
 
 class Join(QtWidgets.QMainWindow):
@@ -49,12 +48,22 @@ class Join(QtWidgets.QMainWindow):
             return
         else:
 
-                self.win = Main("DATABASE.db")
-                self.close()
-                self.win.show()
+            self.win = Main("DATABASE.db")
+            self.close()
+            self.win.show()
 
 
-class Main(QMainWindow, UI_Main):
+class Anketa(QMainWindow, Ui_Anketa):
+    def __init__(self, path, user):
+        self.user = user
+        self.path = path
+        super().__init__()
+        self.setupUi(self)
+        self.con = sqlite3.connect(self.path)
+        self.curs = self.con.cursor()
+
+
+class Main(QMainWindow, Ui_MainWindow):
     def __init__(self, path):
         self.path = path
         super(Main, self).__init__()
@@ -63,11 +72,12 @@ class Main(QMainWindow, UI_Main):
         self.curs = self.con.cursor()
         self.update_data()
         self.comboBox.currentTextChanged.connect(self.update_data)
+        self.tableWidget.cellClicked.connect(self.student)
 
     def update_data(self):
         self.brch = self.curs.execute(
-                """Select id From Branches WHERE name = "{}" """.format(self.comboBox.currentText())).fetchall()[0][0]
-        #print(self.brch)
+            """Select id From Branches WHERE name = "{}" """.format(self.comboBox.currentText())).fetchall()[0][0]
+        # print(self.brch)
         self.dt = self.curs.execute("""Select id, FIO from Students Where Branch = {} """.format(self.brch)).fetchall()
         print(self.dt)
         if self.dt:
@@ -97,6 +107,14 @@ class Main(QMainWindow, UI_Main):
                 self.tableWidget.item(i, 1).setText(str(data[i][1]))
         except Exception as er:
             print(er)
+
+    def student(self):
+        try:
+            self.win = Anketa("DATABASE.db", int(self.tableWidget.item(self.tableWidget.currentRow(), 0).text()))
+            self.close()
+            self.win.show()
+        except Exception as error:
+            print(error)
 
 
 if __name__ == "__main__":
