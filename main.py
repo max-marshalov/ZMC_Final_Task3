@@ -62,6 +62,26 @@ class Anketa(QMainWindow, Ui_Anketa):
         self.con = sqlite3.connect(self.path)
         self.curs = self.con.cursor()
 
+        self.btn_go_to_menu.clicked.connect(self.go_to_menu)
+
+        self.btn_save.clicked.connect(self.save_1)
+        self.btn_save_2.clicked.connect(self.save_2)
+        self.btn_save_3.clicked.connect(self.save_3)
+
+    def save_1(self):
+        pass
+
+    def save_2(self):
+        pass
+
+    def save_3(self):
+        pass
+
+    def go_to_menu(self):
+        self.win = Main("DATABASE.db")
+        self.close()
+        self.win.show()
+
 
 class Main(QMainWindow, Ui_MainWindow):
     def __init__(self, path):
