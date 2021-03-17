@@ -1,7 +1,7 @@
 from docxtpl import DocxTemplate
 import sqlite3
 import os
-
+import pkg_resources.py2_warn
 con = sqlite3.connect("DATABASE.db")
 curs = con.cursor()
 

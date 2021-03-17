@@ -5,6 +5,7 @@ import sqlite3
 from join import *
 from main_window import *
 import sys
+import pkg_resources.py2_warn
 
 
 class Join(QtWidgets.QMainWindow):
