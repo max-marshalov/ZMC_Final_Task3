@@ -46,13 +46,10 @@ class Join(QtWidgets.QMainWindow):
             self.ui.label_error.show()
             return
         else:
-            try:
+
                 self.win = Main("DATABASE.db")
                 self.close()
                 self.win.show()
-
-            except Exception as er:
-                print(er)
 
 
 class Main(QMainWindow, UI_Main):
@@ -67,21 +64,31 @@ class Main(QMainWindow, UI_Main):
 
     def update_data(self):
         self.brch = self.curs.execute(
-            """Select id From Branches WHERE name = "{}" """.format(self.comboBox.currentText())).fetchall()[0][0]
-        self.data = self.curs.execute("""Select id, FIO from Students Where Branch = {} """.format(self.brch)).fetchall()
-        self.update_table()
+                """Select id From Branches WHERE name = "{}" """.format(self.comboBox.currentText())).fetchall()[0][0]
+        print(self.brch)
+        self.dt = self.curs.execute("""Select id, FIO from Students Where Branch = {} """.format(self.brch)).fetchall()
+        print(self.dt)
+        for j in self.dt:
+
+                k = self.curs.execute("""Select FIO from UserForm Where id = {} """.format(j[1])).fetchall()[0][0]
+
+                self.data = [(j[0], k)]
+                self.tableWidget.setRowCount(0)
+                self.update_table()
 
     def update_table(self):
-        self.tableWidget.setRowCount(0)
 
-        n = len(self.data)
-        self.tableWidget.setRowCount(n)
-        for i in range(n):
-            self.tableWidget.setItem(i, 0, QTableWidgetItem())
-            self.tableWidget.setItem(i, 1, QTableWidgetItem())
+                n = len(self.data)
+                try:
+                    self.tableWidget.setRowCount(n)
+                    for i in range(n):
+                        self.tableWidget.setItem(i, 0, QTableWidgetItem())
+                        self.tableWidget.setItem(i, 1, QTableWidgetItem())
 
-            self.tableWidget.item(i, 0).setText(str(self.data[i][0]))
-            self.tableWidget.item(i, 1).setText(self.data[i][1])
+                        self.tableWidget.item(i, 0).setText(str(self.data[i][0]))
+                        self.tableWidget.item(i, 1).setText(str(self.data[i][1]))
+                except Exception as er:
+                    print(er)
 
 
 if __name__ == "__main__":
