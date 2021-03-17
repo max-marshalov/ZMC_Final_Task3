@@ -3,6 +3,7 @@ from PyQt5.QtCore import Qt
 from PyQt5 import QtWidgets, QtGui, QtCore
 import sqlite3
 from join import *
+from main_window import *
 import sys
 
 
@@ -46,15 +47,45 @@ class Join(QtWidgets.QMainWindow):
             return
         else:
             try:
-                self.win = UI_Main("DATABASE.db")
+                self.win = Main("DATABASE.db")
                 self.close()
                 self.win.show()
 
             except Exception as er:
                 print(er)
+
+
+class Main(QMainWindow, UI_Main):
+    def __init__(self, path):
+        self.path = path
+        super(Main, self).__init__()
+        self.setupUi(self)
+        self.con = sqlite3.connect(self.path)
+        self.curs = self.con.cursor()
+        self.update_data()
+        self.comboBox.currentTextChanged.connect(self.update_data)
+
+    def update_data(self):
+        self.brch = self.curs.execute(
+            """Select id From Branches WHERE name = "{}" """.format(self.comboBox.currentText())).fetchall()[0][0]
+        self.data = self.curs.execute("""Select id, FIO from Students Where Branch = {} """.format(self.brch)).fetchall()
+        self.update_table()
+
+    def update_table(self):
+        self.tableWidget.setRowCount(0)
+
+        n = len(self.data)
+        self.tableWidget.setRowCount(n)
+        for i in range(n):
+            self.tableWidget.setItem(i, 0, QTableWidgetItem())
+            self.tableWidget.setItem(i, 1, QTableWidgetItem())
+
+            self.tableWidget.item(i, 0).setText(str(self.data[i][0]))
+            self.tableWidget.item(i, 1).setText(self.data[i][1])
+
+
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     mainWindow = Join()
     mainWindow.show()
     sys.exit(app.exec())
-
