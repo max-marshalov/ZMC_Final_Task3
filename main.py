@@ -89,10 +89,12 @@ class Anketa(QMainWindow, Ui_Anketa):
 
         self.year_join = int(self.curs.execute(
             f"""SELECT year FROM Students WHERE id = {self.user}""").fetchone()[0])
+        print(self.fio)
+        dt = self.fio.split(" ")
 
-        self.surname = self.fio[0]
-        self.name = self.fio[1]
-        self.otch = self.fio[2]
+        self.surname = dt[0]
+        self.name = dt[1]
+        self.otch = dt[2]
         self.data = \
             self.curs.execute(
                 f"""Select study_ticket_number, facultet, Groups from Students where id ={self.user}  """).fetchall()[
@@ -109,7 +111,7 @@ class Anketa(QMainWindow, Ui_Anketa):
         self.edit_gave.setText(str(self.paper[2]))
         self.edit_code.setText(str(self.paper[3]))
         self.edit_date.setText(str(self.paper[4]))
-        #self.study_ticket()
+        self.study_ticket()
 
     def study_ticket(self):
         self.doc = DocxTemplate(os.path.abspath("Формат студенческого билета (1).docx"))
