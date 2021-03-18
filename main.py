@@ -128,6 +128,12 @@ class Anketa(QMainWindow, Ui_Anketa):
         self.doc.render(context)
         self.doc.save("Билет.docx")
 
+    def shw_photo(self):
+        dt = self.curs.execute(f"""Select photo_path from UserForm where id = {self.id}""").fetchall()[0][0]
+        self.ex = Example(dt)
+        self.ex.show()
+
+
 
     def save_1(self):
         pass
@@ -143,6 +149,27 @@ class Anketa(QMainWindow, Ui_Anketa):
         self.close()
         self.win.show()
 
+class Example(QWidget):
+
+    def __init__(self, path):
+        self.path = path
+        super().__init__()
+
+        self.initUI()
+
+    def initUI(self):
+        hbox = QHBoxLayout(self)
+        pixmap = QtGui.QPixmap(self.path)
+
+        lbl = QLabel(self)
+        lbl.setPixmap(pixmap)
+
+        hbox.addWidget(lbl)
+        self.setLayout(hbox)
+
+        self.move(300, 200)
+        self.setWindowTitle('Photo')
+        self.show()
 
 class Main(QMainWindow, Ui_MainWindow):
     def __init__(self, path, user):
