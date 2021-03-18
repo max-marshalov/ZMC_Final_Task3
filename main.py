@@ -62,6 +62,54 @@ class Anketa(QMainWindow, Ui_Anketa):
         self.con = sqlite3.connect(self.path)
         self.curs = self.con.cursor()
 
+        self.btn_go_to_menu.clicked.connect(self.go_to_menu)
+
+        self.btn_save.clicked.connect(self.save_1)
+        self.btn_save_2.clicked.connect(self.save_2)
+        self.btn_save_3.clicked.connect(self.save_3)
+
+        self.paper = self.curs.execute(
+            f"""SELECT serial_number, number, gave, code, date FROM Paper WHERE id = {self.user}""").fetchone()
+
+        self.id = self.curs.execute(
+            f"""SELECT FIO FROM Students WHERE id = {self.user}""").fetchone()[0]
+
+        self.fio = self.curs.execute(
+            f"""SELECT FIO FROM UserForm WHERE id = {self.id}""").fetchone()[0]
+
+        self.sex = self.curs.execute(
+            f"""SELECT sex FROM UserForm WHERE id = {self.id}""").fetchone()[0]
+
+        self.birthday = self.curs.execute(
+            f"""SELECT birthday FROM Anket WHERE id = {self.id}""").fetchone()[0]
+
+        self.year_join = self.curs.execute(
+            f"""SELECT FIO FROM Students WHERE id = {self.user}""").fetchone()[0]
+
+        self.label_fio.setText(self.fio)
+        self.label_sex.setText(self.sex)
+        self.label_birthday.setText(str(self.birthday))
+
+        self.edit_serial.setText(str(self.paper[0]))
+        self.edit_number.setText(str(self.paper[1]))
+        self.edit_gave.setText(str(self.paper[2]))
+        self.edit_code.setText(str(self.paper[3]))
+        self.edit_date.setText(str(self.paper[4]))
+
+    def save_1(self):
+        pass
+
+    def save_2(self):
+        pass
+
+    def save_3(self):
+        pass
+
+    def go_to_menu(self):
+        self.win = Main("DATABASE.db")
+        self.close()
+        self.win.show()
+
 
 class Main(QMainWindow, Ui_MainWindow):
     def __init__(self, path, user):
@@ -87,7 +135,7 @@ class Main(QMainWindow, Ui_MainWindow):
             """Select id From Branches WHERE name = "{}" """.format(self.comboBox.currentText())).fetchall()[0][0]
         # print(self.brch)
         self.dt = self.curs.execute("""Select id, FIO from Students Where Branch = {} """.format(self.brch)).fetchall()
-        print(self.dt)
+        # print(self.dt)
         if self.dt:
             for j in self.dt:
                 data = []
@@ -102,7 +150,7 @@ class Main(QMainWindow, Ui_MainWindow):
             self.update_table(self.dt)
 
     def update_table(self, data):
-        print(data)
+        # print(data)
         self.tableWidget.setRowCount(0)
         n = len(data)
         try:
