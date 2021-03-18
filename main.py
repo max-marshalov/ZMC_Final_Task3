@@ -66,6 +66,7 @@ class Anketa(QMainWindow, Ui_Anketa):
         self.curs = self.con.cursor()
 
         self.btn_go_to_menu.clicked.connect(self.go_to_menu)
+        self.btn_photo.clicked.connect(self.shw_photo)
 
         self.btn_save.clicked.connect(self.save_1)
         self.btn_save_2.clicked.connect(self.save_2)
