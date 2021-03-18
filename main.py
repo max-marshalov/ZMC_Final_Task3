@@ -7,6 +7,7 @@ from join import *
 from main_window import *
 import sys
 from anketa import *
+import os
 
 
 class Join(QtWidgets.QMainWindow):
@@ -98,6 +99,21 @@ class Anketa(QMainWindow, Ui_Anketa):
         self.tk_number = self.data[0]
         self.facultet = self.data[1]
         self.group = self.data[2]
+
+    def study_ticket(self):
+        self.doc = DocxTemplate(os.path.abspath("Формат студенческого билета (1).docx"))
+        context = {'study_number': "{}".format(self.tk_number), 'surname': "{}".format(self.surname),
+                   'name': "{}".format(self.name),
+                   'otch': "{}".format(self.otch), 'facultet': "{}".format(self.fuck), 'group': "{}".format(self.group),
+                   'year1': "{}".format(self.year), 'year2': "{}".format(self.year + 1),
+                   'year3': "{}".format(self.year + 2),
+                   'year4': "{}".format(self.year + 3), 'year5': "{}".format(self.year + 4),
+                   'year6': "{}".format(self.year + 5),
+                   'level1': "{}".format(1), 'level2': "{}".format(2), 'level3': "{}".format(3),
+                   'level4': "{}".format(4),
+                   'level5': "{}".format(5), 'level6': "{}".format(6)}
+        self.doc.render(context)
+        self.doc.save("Билет.docx")
         ###################################################################################################################################
         self.label_fio.setText(self.fio)
         self.label_sex.setText(self.sex)
