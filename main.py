@@ -136,6 +136,33 @@ class Anketa(QMainWindow, Ui_Anketa):
         self.edit_adress_2.setText(f"{self.live_adress[0]}, {self.live_adress[1]}, {self.live_adress[2]}, {self.live_adress[3]}, {self.live_adress[4]}")
         self.edit_phone_number.setText(str(self.phone_number))
         self.edit_email.setText(str(self.mail))
+
+        self.branch = self.curs.execute(
+            f"""SELECT Branch FROM Students WHERE id = {self.user}""").fetchone()[0]
+
+        self.facultet_name = self.curs.execute(
+            f"""SELECT name FROM Facultets WHERE id = {self.facultet}""").fetchone()[0]
+
+        self.branch_name = self.curs.execute(
+            f"""SELECT name FROM Branches WHERE id = {self.branch}""").fetchone()[0]
+
+        self.join_date = self.curs.execute(
+            f"""SELECT join_date FROM Students WHERE id = {self.user}""").fetchone()[0]
+
+        self.leave_date = self.curs.execute(
+            f"""SELECT leave_date FROM Students WHERE id = {self.user}""").fetchone()[0]
+
+        self.label_facultet.setText(str(self.facultet_name))
+        self.label_branch.setText(str(self.branch_name))
+
+        self.comboBox_group_number.setCurrentIndex(self.group - 1)
+        self.label_stud_number.setText(str(self.user))
+        self.label_zach_number.setText(str(self.user))
+        self.edit_chit_bilet.setText(str(self.user))
+
+        self.label_date_zach.setText(str(self.join_date))
+        self.label_date_otch.setText(str(self.leave_date))
+
     def question(self):
         pass
 
