@@ -140,7 +140,6 @@ class Anketa(QMainWindow, Ui_Anketa):
         self.edit_phone_number.setText(str(self.phone_number))
         self.edit_email.setText(str(self.mail))
 
-
     def study_ticket(self):
         self.doc = DocxTemplate(os.path.abspath("Формат студенческого билета (1).docx"))
         context = {'study_number': "{}".format(self.tk_number), 'surname': "{}".format(self.surname),
@@ -157,12 +156,14 @@ class Anketa(QMainWindow, Ui_Anketa):
         self.doc.render(context)
         self.doc.save("Билет.docx")
         self.printing()
+
     def printing(self):
         self.ticket = QtGui.QTextDocument(os.path.abspath("Билет.docx"))
         printer = QPrinter()
         dialog = QPrintDialog(printer)
         if dialog.exec_():
             return self.ticket.print(printer)
+
     def shw_photo(self):
         dt = self.curs.execute(f"""Select photo_path from UserForm where id = {self.id}""").fetchall()[0][0]
         self.ex = Example(dt)
@@ -204,9 +205,6 @@ class Example(QWidget):
         self.move(300, 200)
         self.setWindowTitle('Photo')
         self.show()
-
-
-
 
 
 class Main(QMainWindow, Ui_MainWindow):
