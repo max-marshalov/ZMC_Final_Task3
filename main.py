@@ -89,7 +89,7 @@ class Anketa(QMainWindow, Ui_Anketa):
             f"""SELECT sex FROM UserForm WHERE id = {self.id}""").fetchone()[0]
 
         self.birthday = self.curs.execute(
-            f"""SELECT birthday FROM Anket WHERE id = {self.id}""").fetchone()[0]
+            f"""SELECT birthday FROM UserForm WHERE id = {self.id}""").fetchone()[0]
 
         self.year_join = int(self.curs.execute(
             f"""SELECT year FROM Students WHERE id = {self.user}""").fetchone()[0])
