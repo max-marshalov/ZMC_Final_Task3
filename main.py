@@ -156,6 +156,9 @@ class Anketa(QMainWindow, Ui_Anketa):
         self.leave_date = self.curs.execute(
             f"""SELECT leave_date FROM Students WHERE id = {self.user}""").fetchone()[0]
 
+        self.chit_bilet = self.curs.execute(
+            f"""SELECT lib_ticket_number FROM Students WHERE id = {self.user}""").fetchone()[0]
+
 
         self.label_facultet.setText(str(self.facultet_name))
         self.label_branch.setText(str(self.branch_name))
@@ -163,7 +166,7 @@ class Anketa(QMainWindow, Ui_Anketa):
         self.comboBox_group_number.setCurrentIndex(int(self.group) - 1)
         self.label_stud_number.setText(str(self.user))
         self.label_zach_number.setText(str(self.user))
-        self.edit_chit_bilet.setText(str(self.user))
+        self.edit_chit_bilet.setText(str(self.chit_bilet))
 
         self.label_date_zach.setText(str(self.join_date))
         self.label_date_otch.setText(str(self.leave_date))
@@ -244,6 +247,11 @@ class Anketa(QMainWindow, Ui_Anketa):
             self.curs.execute(
                 f"""UPDATE Students set Groups = '{self.gr}' WHERE id = {self.user}"""
             )
+
+            self.curs.execute(
+                f"""UPDATE Students set lib_ticket_number = '{self.edit_chit_bilet.text()}' WHERE id = {self.user}"""
+            )
+
             self.con.commit()
         except Exception as ex:
             print(ex)
