@@ -220,13 +220,16 @@ class Anketa(QMainWindow, Ui_Anketa):
         self.live_adress = self.curs.execute(
             f"""SELECT live_address FROM Students WHERE id = {self.user}""").fetchone()[0]
 
+        self.reg_base = self.edit_adress_1.text().split(', ')
+        self.live_base = self.edit_adress_2.text().split(', ')
+
         try:
             self.curs.execute(
-                f"""UPDATE Address set smth WHERE id = {self.reg_adress}"""
+                f"""UPDATE Address set address_index = '{str(self.reg_base[0])}', city = '{str(self.reg_base[1])}', street = '{str(self.reg_base[2])}', house = '{str(self.reg_base[3])}', flat = '{str(self.reg_base[4])}' WHERE id = {self.reg_adress}"""
             )
 
             self.curs.execute(
-                f"""UPDATE Address set smth WHERE id = {self.live_adress}"""
+                f"""UPDATE Address set address_index = '{str(self.live_base[0])}', city = '{str(self.live_base[1])}', street = '{str(self.live_base[2])}', house = '{str(self.live_base[3])}', flat = '{str(self.live_base[4])}' WHERE id = {self.live_adress}"""
             )
 
             self.con.commit()
