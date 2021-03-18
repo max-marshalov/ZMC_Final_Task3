@@ -84,11 +84,12 @@ class Anketa(QMainWindow, Ui_Anketa):
             f"""SELECT birthday FROM Anket WHERE id = {self.id}""").fetchone()[0]
 
         self.year_join = self.curs.execute(
-            f"""SELECT FIO FROM Students WHERE id = {self.user}""").fetchone()[0]
+            f"""SELECT year FROM Students WHERE id = {self.user}""").fetchone()[0]
 
         self.label_fio.setText(self.fio)
         self.label_sex.setText(self.sex)
         self.label_birthday.setText(str(self.birthday))
+        self.label_year_join.setText(str(self.year_join))
 
         self.edit_serial.setText(str(self.paper[0]))
         self.edit_number.setText(str(self.paper[1]))
