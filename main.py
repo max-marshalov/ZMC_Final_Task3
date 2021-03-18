@@ -156,6 +156,7 @@ class Anketa(QMainWindow, Ui_Anketa):
         self.leave_date = self.curs.execute(
             f"""SELECT leave_date FROM Students WHERE id = {self.user}""").fetchone()[0]
 
+
         self.label_facultet.setText(str(self.facultet_name))
         self.label_branch.setText(str(self.branch_name))
 
@@ -171,10 +172,14 @@ class Anketa(QMainWindow, Ui_Anketa):
         pass
 
     def study_ticket(self):
-        self.doc = DocxTemplate(os.path.abspath("Формат студенческого билета (1).docx"))
+        if self.facultet == 1:
+            self.dec = " Пупкин В.Э."
+        elif self.facultet == 2:
+            self.dec = "Иванов И.И."
+        self.doc = DocxTemplate(os.path.abspath("Формат студ билета.docx"))
         context = {'study_number': "{}".format(self.tk_number), 'surname': "{}".format(self.surname),
                    'name': "{}".format(self.name),
-                   'otch': "{}".format(self.otch), 'facultet': "{}".format(self.facultet),
+                   'otch': "{}".format(self.otch), 'facultet': "{}".format(self.facultet_name),
                    'group': "{}".format(self.group),
                    'year1': "{}".format(self.year_join), 'year2': "{}".format(self.year_join + 1),
                    'year3': "{}".format(self.year_join + 2),
@@ -182,7 +187,7 @@ class Anketa(QMainWindow, Ui_Anketa):
                    'year6': "{}".format(self.year_join + 5),
                    'level1': "{}".format(1), 'level2': "{}".format(2), 'level3': "{}".format(3),
                    'level4': "{}".format(4),
-                   'level5': "{}".format(5), 'level6': "{}".format(6)}
+                   'level5': "{}".format(5), 'level6': "{}".format(6), 'decan': "{}".format(self.dec)}
         self.doc.render(context)
         self.doc.save("Билет.docx")
         self.printing()
