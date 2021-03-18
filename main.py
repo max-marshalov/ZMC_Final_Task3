@@ -117,7 +117,6 @@ class Anketa(QMainWindow, Ui_Anketa):
         self.edit_code.setText(str(self.paper[3]))
         self.edit_date.setText(str(self.paper[4]))
         self.btn_study_ticket.clicked.connect(self.study_ticket)
-        self.btn_zachetka.clicked.connect(self.zach_book)
 
         self.phone_number = self.curs.execute(
             f"""SELECT phone_number FROM UserForm WHERE id = {self.id}""").fetchone()[0]
@@ -159,6 +158,7 @@ class Anketa(QMainWindow, Ui_Anketa):
         self.leave_date = self.curs.execute(
             f"""SELECT leave_date FROM Students WHERE id = {self.user}""").fetchone()[0]
 
+
         self.label_facultet.setText(str(self.facultet_name))
         self.label_branch.setText(str(self.branch_name))
 
@@ -192,17 +192,10 @@ class Anketa(QMainWindow, Ui_Anketa):
                    'level5': "{}".format(5), 'level6': "{}".format(6), 'decan': "{}".format(self.dec)}
         self.doc.render(context)
         self.doc.save("Билет.docx")
+        self.printing()
+
+    def printing(self):
         os.startfile(os.path.abspath("Билет.docx"), "print")
-
-    def zach_book(self):
-        self.zachetka = DocxTemplate(os.path.abspath("Формат зачетной книжки.docx"))
-        context = {'number': self.tk_number, 'fio': self.fio, 'facultet': self.facultet_name, 'spec': self.branch_name}
-        self.zachetka.render(context)
-        self.zachetka.save("Зачетка.docx")
-        os.startfile(os.path.abspath("Зачетка.docx"), "print")
-
-
-
     def shw_photo(self):
         dt = self.curs.execute(f"""Select photo_path from UserForm where id = {self.id}""").fetchall()[0][0]
         self.ex = Example(dt)
@@ -286,6 +279,9 @@ class Example(QWidget):
         self.show()
 
 
+
+
+
 class Main(QMainWindow, Ui_MainWindow):
     def __init__(self, path, user):
         self.path = path
@@ -341,8 +337,7 @@ class Main(QMainWindow, Ui_MainWindow):
 
     def student(self):
         try:
-            self.win = Anketa("DATABASE.db", int(self.tableWidget.item(self.tableWidget.currentRow(), 0).text()),
-                              self.user)
+            self.win = Anketa("DATABASE.db", int(self.tableWidget.item(self.tableWidget.currentRow(), 0).text()), self.user)
             self.close()
             self.win.show()
         except Exception as error:
