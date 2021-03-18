@@ -111,13 +111,14 @@ class Anketa(QMainWindow, Ui_Anketa):
         self.edit_gave.setText(str(self.paper[2]))
         self.edit_code.setText(str(self.paper[3]))
         self.edit_date.setText(str(self.paper[4]))
-        self.study_ticket()
+        self.btn_study_ticket.clicked.connect(self.study_ticket)
 
     def study_ticket(self):
         self.doc = DocxTemplate(os.path.abspath("Формат студенческого билета (1).docx"))
         context = {'study_number': "{}".format(self.tk_number), 'surname': "{}".format(self.surname),
                    'name': "{}".format(self.name),
-                   'otch': "{}".format(self.otch), 'facultet': "{}".format(self.facultet), 'group': "{}".format(self.group),
+                   'otch': "{}".format(self.otch), 'facultet': "{}".format(self.facultet),
+                   'group': "{}".format(self.group),
                    'year1': "{}".format(self.year_join), 'year2': "{}".format(self.year_join + 1),
                    'year3': "{}".format(self.year_join + 2),
                    'year4': "{}".format(self.year_join + 3), 'year5': "{}".format(self.year_join + 4),
@@ -134,8 +135,6 @@ class Anketa(QMainWindow, Ui_Anketa):
         self.ex = Example(dt)
         self.ex.show()
 
-
-
     def save_1(self):
         pass
 
@@ -149,6 +148,7 @@ class Anketa(QMainWindow, Ui_Anketa):
         self.win = Main("DATABASE.db")
         self.close()
         self.win.show()
+
 
 class Example(QWidget):
 
@@ -171,6 +171,7 @@ class Example(QWidget):
         self.move(300, 200)
         self.setWindowTitle('Photo')
         self.show()
+
 
 class Main(QMainWindow, Ui_MainWindow):
     def __init__(self, path, user):

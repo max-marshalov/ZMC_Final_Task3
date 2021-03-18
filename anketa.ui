@@ -363,6 +363,24 @@
        <string>Сохранить</string>
       </property>
      </widget>
+     <widget class="QPushButton" name="btn_study_ticket">
+      <property name="geometry">
+       <rect>
+        <x>170</x>
+        <y>530</y>
+        <width>211</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Распечатать билет</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="tab_2">
      <attribute name="title">
