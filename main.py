@@ -99,7 +99,7 @@ class Anketa(QMainWindow, Ui_Anketa):
             self.curs.execute(
                 f"""Select study_ticket_number, facultet, Groups from Students where id = {self.user}""").fetchall()[
                 0]
-        self.tk_number = self.data[0]
+        self.tk_number = self.user
         self.facultet = self.data[1]
         self.group = self.data[2]
 
@@ -112,7 +112,7 @@ class Anketa(QMainWindow, Ui_Anketa):
         self.edit_gave.setText(str(self.paper[2]))
         self.edit_code.setText(str(self.paper[3]))
         self.edit_date.setText(str(self.paper[4]))
-        self.btn_study_ticket.clicked.connect(self.study_ticket)
+        self.btn_study_ticket.clicked.connect(self.question)
 
         self.phone_number = self.curs.execute(
             f"""SELECT phone_number FROM UserForm WHERE id = {self.id}""").fetchone()[0]
@@ -136,6 +136,8 @@ class Anketa(QMainWindow, Ui_Anketa):
         self.edit_adress_2.setText(f"{self.live_adress[0]}, {self.live_adress[1]}, {self.live_adress[2]}, {self.live_adress[3]}, {self.live_adress[4]}")
         self.edit_phone_number.setText(str(self.phone_number))
         self.edit_email.setText(str(self.mail))
+    def question(self):
+        pass
 
     def study_ticket(self):
         self.doc = DocxTemplate(os.path.abspath("Формат студенческого билета (1).docx"))
