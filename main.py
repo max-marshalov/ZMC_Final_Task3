@@ -100,9 +100,6 @@ class Anketa(QMainWindow, Ui_Anketa):
         self.facultet = self.data[1]
         self.group = self.data[2]
 
-        self.phone_number = self.curs.execute(
-            f"""SELECT birthday FROM Anket WHERE id = {self.id}""").fetchone()[0]
-
         self.label_fio.setText(self.fio)
         self.label_sex.setText(self.sex)
         self.label_birthday.setText(str(self.birthday))
@@ -112,6 +109,29 @@ class Anketa(QMainWindow, Ui_Anketa):
         self.edit_gave.setText(str(self.paper[2]))
         self.edit_code.setText(str(self.paper[3]))
         self.edit_date.setText(str(self.paper[4]))
+
+        self.phone_number = self.curs.execute(
+            f"""SELECT phone_number FROM UserForm WHERE id = {self.id}""").fetchone()[0]
+
+        self.mail = self.curs.execute(
+            f"""SELECT email FROM UserForm WHERE id = {self.id}""").fetchone()[0]
+
+        self.reg_adress = self.curs.execute(
+            f"""SELECT reg_address FROM Students WHERE id = {self.user}""").fetchone()[0]
+
+        self.reg_adress = self.curs.execute(
+            f"""SELECT address_index, city, street, house, flat FROM Address WHERE id = {self.reg_adress}""").fetchone()
+
+        self.live_adress = self.curs.execute(
+            f"""SELECT live_address FROM Students WHERE id = {self.user}""").fetchone()[0]
+
+        self.live_adress = self.curs.execute(
+            f"""SELECT address_index, city, street, house, flat FROM Address WHERE id = {self.live_adress}""").fetchone()
+
+        self.edit_adress_1.setText(f"{self.reg_adress[0]}, {self.reg_adress[1]}, {self.reg_adress[2]}, {self.reg_adress[3]}, {self.reg_adress[4]}")
+        self.edit_adress_2.setText(f"{self.live_adress[0]}, {self.live_adress[1]}, {self.live_adress[2]}, {self.live_adress[3]}, {self.live_adress[4]}")
+        self.edit_phone_number.setText(str(self.phone_number))
+        self.edit_email.setText(str(self.mail))
 
     def study_ticket(self):
         self.doc = DocxTemplate(os.path.abspath("Формат студенческого билета (1).docx"))
@@ -133,8 +153,6 @@ class Anketa(QMainWindow, Ui_Anketa):
         self.ex = Example(dt)
         self.ex.show()
 
-
-
     def save_1(self):
         pass
 
@@ -148,6 +166,7 @@ class Anketa(QMainWindow, Ui_Anketa):
         self.win = Main("DATABASE.db")
         self.close()
         self.win.show()
+
 
 class Example(QWidget):
 
@@ -170,6 +189,7 @@ class Example(QWidget):
         self.move(300, 200)
         self.setWindowTitle('Photo')
         self.show()
+
 
 class Main(QMainWindow, Ui_MainWindow):
     def __init__(self, path, user):
