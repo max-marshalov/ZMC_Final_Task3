@@ -6,7 +6,7 @@ con = sqlite3.connect("DATABASE.db")
 curs = con.cursor()
 
 data = \
-    curs.execute("""Select study_ticket_number, FIO, facultet, Groups, year from Students where id = 1 """).fetchall()[
+    curs.execute("""Select study_ticket_number, facultet, Groups from Students where id = 1 """).fetchall()[
         0]
 print(data)
 fio = curs.execute("""Select FIO from UserForm where id = {}""".format(data[1])).fetchall()[0][0].split(" ")
