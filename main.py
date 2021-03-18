@@ -156,6 +156,8 @@ class Anketa(QMainWindow, Ui_Anketa):
                    'level5': "{}".format(5), 'level6': "{}".format(6)}
         self.doc.render(context)
         self.doc.save("Билет.docx")
+        self.printing()
+    def printing(self):
         self.ticket = QtGui.QTextDocument(os.path.abspath("Билет.docx"))
         printer = QPrinter()
         dialog = QPrintDialog(printer)
