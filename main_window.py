@@ -74,5 +74,5 @@ class Ui_MainWindow(object):
         self.comboBox.setItemText(1, _translate("MainWindow", "Информатика и вычислительная техника"))
         self.comboBox.setItemText(2, _translate("MainWindow", "Автоматизация и управление в технических системах"))
         self.comboBox.setItemText(3, _translate("MainWindow", "Инфокоммуникационные технологии"))
-        self.comboBox.setItemText(4, _translate("MainWindow", "Защещенные сети и системы"))
+        self.comboBox.setItemText(4, _translate("MainWindow", "Защищенные сети и системы"))
         self.label.setText(_translate("MainWindow", "Выбрать направление:"))
