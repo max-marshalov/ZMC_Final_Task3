@@ -89,7 +89,7 @@ class Anketa(QMainWindow, Ui_Anketa):
 
         self.year_join = int(self.curs.execute(
             f"""SELECT year FROM Students WHERE id = {self.user}""").fetchone()[0])
-        ##################################################################################################################################
+
         self.surname = self.fio[0]
         self.name = self.fio[1]
         self.otch = self.fio[2]
@@ -124,7 +124,7 @@ class Anketa(QMainWindow, Ui_Anketa):
                    'level5': "{}".format(5), 'level6': "{}".format(6)}
         self.doc.render(context)
         self.doc.save("Билет.docx")
-        ###################################################################################################################################
+
 
     def save_1(self):
         pass
