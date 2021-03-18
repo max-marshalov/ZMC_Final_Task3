@@ -100,6 +100,9 @@ class Anketa(QMainWindow, Ui_Anketa):
         self.facultet = self.data[1]
         self.group = self.data[2]
 
+        self.phone_number = self.curs.execute(
+            f"""SELECT birthday FROM Anket WHERE id = {self.id}""").fetchone()[0]
+
         self.label_fio.setText(self.fio)
         self.label_sex.setText(self.sex)
         self.label_birthday.setText(str(self.birthday))
