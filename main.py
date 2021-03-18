@@ -1,6 +1,7 @@
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import Qt
 from PyQt5 import QtWidgets, QtGui, QtCore
+from docxtpl import DocxTemplate
 import sqlite3
 from join import *
 from main_window import *
@@ -84,15 +85,16 @@ class Anketa(QMainWindow, Ui_Anketa):
         self.birthday = self.curs.execute(
             f"""SELECT birthday FROM Anket WHERE id = {self.id}""").fetchone()[0]
 
-        self.year_join = self.curs.execute(
-            f"""SELECT year FROM Students WHERE id = {self.user}""").fetchone()[0]
+        self.year_join = int(self.curs.execute(
+            f"""SELECT year FROM Students WHERE id = {self.user}""").fetchone()[0])
         ##################################################################################################################################
         self.surname = self.fio[0]
         self.name = self.fio[1]
         self.otch = self.fio[2]
         self.data = \
-        self.curs.execute("""Select study_ticket_number, facultet, Groups from Students where id = 1 """).fetchall()[
-            0]
+            self.curs.execute(
+                """Select study_ticket_number, facultet, Groups from Students where id = 1 """).fetchall()[
+                0]
         self.tk_number = self.data[0]
         self.facultet = self.data[1]
         self.group = self.data[2]
