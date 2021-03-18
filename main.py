@@ -64,6 +64,7 @@ class Anketa(QMainWindow, Ui_Anketa):
         self.setupUi(self)
         self.con = sqlite3.connect(self.path)
         self.curs = self.con.cursor()
+        self.btn_photo.clicked.connect(self.shw_photo)
 
         self.btn_go_to_menu.clicked.connect(self.go_to_menu)
 
@@ -94,7 +95,7 @@ class Anketa(QMainWindow, Ui_Anketa):
         self.otch = self.fio[2]
         self.data = \
             self.curs.execute(
-                """Select study_ticket_number, facultet, Groups from Students where id = 1 """).fetchall()[
+                f"""Select study_ticket_number, facultet, Groups from Students where id ={self.user}  """).fetchall()[
                 0]
         self.tk_number = self.data[0]
         self.facultet = self.data[1]
