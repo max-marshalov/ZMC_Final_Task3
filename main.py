@@ -8,7 +8,7 @@ from main_window import *
 import sys
 from anketa import *
 import os
-from PyQt5.Qt import QPrintDialog, QPrinter
+
 
 
 class Join(QtWidgets.QMainWindow):
