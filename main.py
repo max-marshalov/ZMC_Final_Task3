@@ -99,6 +99,15 @@ class Anketa(QMainWindow, Ui_Anketa):
         self.tk_number = self.data[0]
         self.facultet = self.data[1]
         self.group = self.data[2]
+        self.label_fio.setText(self.fio)
+        self.label_sex.setText(self.sex)
+        self.label_birthday.setText(str(self.birthday))
+
+        self.edit_serial.setText(str(self.paper[0]))
+        self.edit_number.setText(str(self.paper[1]))
+        self.edit_gave.setText(str(self.paper[2]))
+        self.edit_code.setText(str(self.paper[3]))
+        self.edit_date.setText(str(self.paper[4]))
 
         self.label_fio.setText(self.fio)
         self.label_sex.setText(self.sex)
