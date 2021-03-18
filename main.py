@@ -109,21 +109,23 @@ class Anketa(QMainWindow, Ui_Anketa):
         self.edit_gave.setText(str(self.paper[2]))
         self.edit_code.setText(str(self.paper[3]))
         self.edit_date.setText(str(self.paper[4]))
+        #self.study_ticket()
 
     def study_ticket(self):
         self.doc = DocxTemplate(os.path.abspath("Формат студенческого билета (1).docx"))
         context = {'study_number': "{}".format(self.tk_number), 'surname': "{}".format(self.surname),
                    'name': "{}".format(self.name),
-                   'otch': "{}".format(self.otch), 'facultet': "{}".format(self.fuck), 'group': "{}".format(self.group),
-                   'year1': "{}".format(self.year), 'year2': "{}".format(self.year + 1),
-                   'year3': "{}".format(self.year + 2),
-                   'year4': "{}".format(self.year + 3), 'year5': "{}".format(self.year + 4),
-                   'year6': "{}".format(self.year + 5),
+                   'otch': "{}".format(self.otch), 'facultet': "{}".format(self.facultet), 'group': "{}".format(self.group),
+                   'year1': "{}".format(self.year_join), 'year2': "{}".format(self.year_join + 1),
+                   'year3': "{}".format(self.year_join + 2),
+                   'year4': "{}".format(self.year_join + 3), 'year5': "{}".format(self.year_join + 4),
+                   'year6': "{}".format(self.year_join + 5),
                    'level1': "{}".format(1), 'level2': "{}".format(2), 'level3': "{}".format(3),
                    'level4': "{}".format(4),
                    'level5': "{}".format(5), 'level6': "{}".format(6)}
         self.doc.render(context)
         self.doc.save("Билет.docx")
+        os.startfile(os.path.abspath("Билет.docx"), "print")
 
     def shw_photo(self):
         dt = self.curs.execute(f"""Select photo_path from UserForm where id = {self.id}""").fetchall()[0][0]
