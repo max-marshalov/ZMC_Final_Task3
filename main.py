@@ -159,7 +159,7 @@ class Anketa(QMainWindow, Ui_Anketa):
         self.label_facultet.setText(str(self.facultet_name))
         self.label_branch.setText(str(self.branch_name))
 
-        self.comboBox_group_number.setCurrentIndex(self.group - 1)
+        self.comboBox_group_number.setCurrentIndex(int(self.group) - 1)
         self.label_stud_number.setText(str(self.user))
         self.label_zach_number.setText(str(self.user))
         self.edit_chit_bilet.setText(str(self.user))
@@ -232,7 +232,16 @@ class Anketa(QMainWindow, Ui_Anketa):
             print(ex)
 
     def save_3(self):
-        pass
+        try:
+            self.gr = self.curs.execute(
+                f"""SELECT id FROM Groups WHERE name = '{self.comboBox_group_number.currentText()}'""").fetchone()[0]
+
+            self.curs.execute(
+                f"""UPDATE Students set Groups = '{self.gr}' WHERE id = {self.user}"""
+            )
+            self.con.commit()
+        except Exception as ex:
+            print(ex)
 
     def go_to_menu(self):
         self.win = Main("DATABASE.db", self.main_user)
