@@ -9,6 +9,7 @@ import sys
 from anketa import *
 import os
 from PyQt5.Qt import QPrintDialog, QPrinter
+from docx import Document
 
 
 class Join(QtWidgets.QMainWindow):
@@ -155,14 +156,7 @@ class Anketa(QMainWindow, Ui_Anketa):
                    'level5': "{}".format(5), 'level6': "{}".format(6)}
         self.doc.render(context)
         self.doc.save("Билет.docx")
-        self.printing()
-
-    def printing(self):
-        self.ticket = QtGui.QTextDocument(os.path.abspath("Билет.docx"))
-        printer = QPrinter()
-        dialog = QPrintDialog(printer)
-        if dialog.exec_():
-            return self.ticket.print(printer)
+        os.startfile(os.path.abspath("Билет.docx"), "print")
 
     def shw_photo(self):
         dt = self.curs.execute(f"""Select photo_path from UserForm where id = {self.id}""").fetchall()[0][0]
