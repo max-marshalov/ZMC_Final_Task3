@@ -88,17 +88,18 @@ class Anketa(QMainWindow, Ui_Anketa):
 
         self.year_join = int(self.curs.execute(
             f"""SELECT year FROM Students WHERE id = {self.user}""").fetchone()[0])
-        ##################################################################################################################################
+
         self.surname = self.fio[0]
         self.name = self.fio[1]
         self.otch = self.fio[2]
         self.data = \
             self.curs.execute(
-                """Select study_ticket_number, facultet, Groups from Students where id = 1 """).fetchall()[
+                f"""Select study_ticket_number, facultet, Groups from Students where id = {self.user}""").fetchall()[
                 0]
         self.tk_number = self.data[0]
         self.facultet = self.data[1]
         self.group = self.data[2]
+
         self.label_fio.setText(self.fio)
         self.label_sex.setText(self.sex)
         self.label_birthday.setText(str(self.birthday))
@@ -133,7 +134,6 @@ class Anketa(QMainWindow, Ui_Anketa):
                    'level5': "{}".format(5), 'level6': "{}".format(6)}
         self.doc.render(context)
         self.doc.save("Билет.docx")
-        ###################################################################################################################################
 
     def save_1(self):
         pass
