@@ -8,7 +8,7 @@ from main_window import *
 import sys
 from anketa import *
 import os
-import pkg_resources.py2_warn
+# import pkg_resources.py2_warn
 
 
 class Join(QtWidgets.QMainWindow):
