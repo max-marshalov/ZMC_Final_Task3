@@ -39,7 +39,7 @@ class Join(QtWidgets.QMainWindow):
         con = sqlite3.connect("DATABASE.db")
         curs = con.cursor()
         ex = curs.execute(
-            """SELECT * FROM Decanat WHERE name = "{}" and password = "{}" """.format(Login, Password)).fetchall()
+            """SELECT Facultet FROM Decanat WHERE name = "{}" and password = "{}" """.format(Login, Password)).fetchall()[0][0]
         con.commit()
         con.close()
         if not ex:
@@ -48,7 +48,7 @@ class Join(QtWidgets.QMainWindow):
             return
         else:
 
-            self.win = Main("DATABASE.db")
+            self.win = Main("DATABASE.db", ex)
             self.close()
             self.win.show()
 
@@ -64,12 +64,20 @@ class Anketa(QMainWindow, Ui_Anketa):
 
 
 class Main(QMainWindow, Ui_MainWindow):
-    def __init__(self, path):
+    def __init__(self, path, user):
         self.path = path
+        self.user = user
         super(Main, self).__init__()
         self.setupUi(self)
         self.con = sqlite3.connect(self.path)
         self.curs = self.con.cursor()
+        if self.user == 1:
+            self.comboBox.removeItem(3)
+            self.comboBox.removeItem(3)
+        elif self.user == 2:
+            self.comboBox.removeItem(0)
+            self.comboBox.removeItem(0)
+            self.comboBox.removeItem(0)
         self.update_data()
         self.comboBox.currentTextChanged.connect(self.update_data)
         self.tableWidget.cellClicked.connect(self.student)
