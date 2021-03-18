@@ -8,6 +8,8 @@ from main_window import *
 import sys
 from anketa import *
 import os
+from dialog import *
+from PyQt5.Qt import QPrintDialog, QPrinter
 
 
 class Join(QtWidgets.QMainWindow):
@@ -112,7 +114,7 @@ class Anketa(QMainWindow, Ui_Anketa):
         self.edit_gave.setText(str(self.paper[2]))
         self.edit_code.setText(str(self.paper[3]))
         self.edit_date.setText(str(self.paper[4]))
-        self.btn_study_ticket.clicked.connect(self.question)
+        self.btn_study_ticket.clicked.connect(self.study_ticket)
 
         self.phone_number = self.curs.execute(
             f"""SELECT phone_number FROM UserForm WHERE id = {self.id}""").fetchone()[0]
@@ -132,12 +134,13 @@ class Anketa(QMainWindow, Ui_Anketa):
         self.live_adress = self.curs.execute(
             f"""SELECT address_index, city, street, house, flat FROM Address WHERE id = {self.live_adress}""").fetchone()
 
-        self.edit_adress_1.setText(f"{self.reg_adress[0]}, {self.reg_adress[1]}, {self.reg_adress[2]}, {self.reg_adress[3]}, {self.reg_adress[4]}")
-        self.edit_adress_2.setText(f"{self.live_adress[0]}, {self.live_adress[1]}, {self.live_adress[2]}, {self.live_adress[3]}, {self.live_adress[4]}")
+        self.edit_adress_1.setText(
+            f"{self.reg_adress[0]}, {self.reg_adress[1]}, {self.reg_adress[2]}, {self.reg_adress[3]}, {self.reg_adress[4]}")
+        self.edit_adress_2.setText(
+            f"{self.live_adress[0]}, {self.live_adress[1]}, {self.live_adress[2]}, {self.live_adress[3]}, {self.live_adress[4]}")
         self.edit_phone_number.setText(str(self.phone_number))
         self.edit_email.setText(str(self.mail))
-    def question(self):
-        pass
+
 
     def study_ticket(self):
         self.doc = DocxTemplate(os.path.abspath("Формат студенческого билета (1).docx"))
@@ -154,8 +157,11 @@ class Anketa(QMainWindow, Ui_Anketa):
                    'level5': "{}".format(5), 'level6': "{}".format(6)}
         self.doc.render(context)
         self.doc.save("Билет.docx")
-        os.startfile(os.path.abspath("Билет.docx"), "print")
-
+        self.ticket = QtGui.QTextDocument(os.path.abspath("Билет.docx"))
+        printer = QPrinter()
+        dialog = QPrintDialog(printer)
+        if dialog.exec_():
+            return self.ticket.print(printer)
     def shw_photo(self):
         dt = self.curs.execute(f"""Select photo_path from UserForm where id = {self.id}""").fetchall()[0][0]
         self.ex = Example(dt)
@@ -197,6 +203,9 @@ class Example(QWidget):
         self.move(300, 200)
         self.setWindowTitle('Photo')
         self.show()
+
+
+
 
 
 class Main(QMainWindow, Ui_MainWindow):
