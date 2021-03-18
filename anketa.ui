@@ -368,7 +368,7 @@
        <rect>
         <x>150</x>
         <y>530</y>
-        <width>261</width>
+        <width>321</width>
         <height>41</height>
        </rect>
       </property>
@@ -378,7 +378,25 @@
        </font>
       </property>
       <property name="text">
-       <string>Напечатать студенческий билет</string>
+       <string>Печать студенческого билета</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btn_zachetka">
+      <property name="geometry">
+       <rect>
+        <x>490</x>
+        <y>530</y>
+        <width>281</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Печать зачетной книжки</string>
       </property>
      </widget>
     </widget>
