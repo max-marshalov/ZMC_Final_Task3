@@ -58,8 +58,9 @@ class Join(QtWidgets.QMainWindow):
 
 
 class Anketa(QMainWindow, Ui_Anketa):
-    def __init__(self, path, user):
+    def __init__(self, path, user, main_user):
         self.user = user
+        self.main_user = main_user
         self.path = path
         super().__init__()
         self.setupUi(self)
@@ -185,30 +186,60 @@ class Anketa(QMainWindow, Ui_Anketa):
         self.doc.render(context)
         self.doc.save("Билет.docx")
         self.printing()
+
     def printing(self):
         self.ticket = QtGui.QTextDocument("Билет.docx")
         printer = QPrinter()
         dialog = QPrintDialog(printer)
         if dialog.exec_():
             return self.ticket.print(printer)
+
     def shw_photo(self):
         dt = self.curs.execute(f"""Select photo_path from UserForm where id = {self.id}""").fetchall()[0][0]
         self.ex = Example(dt)
         self.ex.show()
 
     def save_1(self):
-        pass
+        self.curs.execute(
+            f"""UPDATE Paper set serial_number = '{self.edit_serial.text()}', number = '{self.edit_number.text()}', gave = '{self.edit_gave.text()}', code = '{self.edit_code.text()}', date = '{self.edit_date.text()}' WHERE id = {self.user}"""
+        )
+        self.con.commit()
 
     def save_2(self):
-        pass
+        try:
+            self.curs.execute(
+                f"""UPDATE UserForm set phone_number = '{self.edit_phone_number.text()}', email = '{str(self.edit_email.text())}' WHERE id = {self.id}"""
+            )
+            self.con.commit()
+        except Exception as ex:
+            print(ex)
+
+        self.reg_adress = self.curs.execute(
+            f"""SELECT reg_address FROM Students WHERE id = {self.user}""").fetchone()[0]
+
+        self.live_adress = self.curs.execute(
+            f"""SELECT live_address FROM Students WHERE id = {self.user}""").fetchone()[0]
+
+        try:
+            self.curs.execute(
+                f"""UPDATE Address set smth WHERE id = {self.reg_adress}"""
+            )
+
+            self.curs.execute(
+                f"""UPDATE Address set smth WHERE id = {self.live_adress}"""
+            )
+
+            self.con.commit()
+        except Exception as ex:
+            print(ex)
 
     def save_3(self):
         pass
 
     def go_to_menu(self):
-        self.win = Main("DATABASE.db")
-        self.close()
+        self.win = Main("DATABASE.db", self.main_user)
         self.win.show()
+        self.close()
 
 
 class Example(QWidget):
@@ -292,7 +323,7 @@ class Main(QMainWindow, Ui_MainWindow):
 
     def student(self):
         try:
-            self.win = Anketa("DATABASE.db", int(self.tableWidget.item(self.tableWidget.currentRow(), 0).text()))
+            self.win = Anketa("DATABASE.db", int(self.tableWidget.item(self.tableWidget.currentRow(), 0).text()), self.user)
             self.close()
             self.win.show()
         except Exception as error:
