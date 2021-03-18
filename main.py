@@ -186,7 +186,7 @@ class Anketa(QMainWindow, Ui_Anketa):
         self.doc.save("Билет.docx")
         self.printing()
     def printing(self):
-        self.ticket = QtGui.QTextDocument(os.path.abspath("Билет.docx"))
+        self.ticket = QtGui.QTextDocument("Билет.docx")
         printer = QPrinter()
         dialog = QPrintDialog(printer)
         if dialog.exec_():

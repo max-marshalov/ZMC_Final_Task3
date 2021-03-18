@@ -368,17 +368,17 @@
        <rect>
         <x>150</x>
         <y>530</y>
-        <width>121</width>
+        <width>261</width>
         <height>41</height>
        </rect>
       </property>
       <property name="font">
        <font>
-        <pointsize>14</pointsize>
+        <pointsize>12</pointsize>
        </font>
       </property>
       <property name="text">
-       <string>Печать</string>
+       <string>Напечатать студенческий билет</string>
       </property>
      </widget>
     </widget>
