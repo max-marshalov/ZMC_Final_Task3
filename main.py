@@ -8,9 +8,9 @@ from main_window import *
 import sys
 from anketa import *
 import os
-from docx import Document
 
-# import pkg_resources.py2_warn
+
+import pkg_resources.py2_warn
 
 
 class Join(QtWidgets.QMainWindow):
